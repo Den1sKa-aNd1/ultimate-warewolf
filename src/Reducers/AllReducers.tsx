@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux'
 import baseReducer from './BaseReducer'
+import gameManagerReducer from './GameManagerReducer'
 
 const reducers = combineReducers({
-    baseReducer
+    baseReducer,
+    gameManagerReducer
 })
 
 export default reducers

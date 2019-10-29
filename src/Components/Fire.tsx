@@ -9,3 +9,9 @@ export const getByPath = (path: string) => {
     })
     return result
 }
+
+export const putInPath = (path: string, obj: any, onComplete?: any) => {
+    console.log(path, obj, onComplete)
+    const ref = firebase.database().ref(path)
+    ref.push(obj, onComplete(obj))
+}
