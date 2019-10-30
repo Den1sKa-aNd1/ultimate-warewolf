@@ -1,21 +1,22 @@
 import React from 'react'
-import { getByPath } from '../Fire'
 import { connect } from 'react-redux'
-import { showPopup, putObjects } from '../../Actions/BaseActions'
+import Button from '../Shared/Button/Button'
+import {changeScreen} from '../../Actions/GameManagerActions'
+import { Screens } from '../../Helpers/Screens'
 
 interface RoomInterface {
-    showPopup: () => void
-    putObjects: (obj: any) => void
+    changeScreen: (screen: Screens) => void
 }
 
-export class FirebaseApp extends React.Component<RoomInterface> {
-    componentDidMount() {
-        this.props.putObjects(getByPath('room'))
-        this.props.showPopup()
+class RoomComponent extends React.Component<RoomInterface> {
+    backToLobby = () => {
+        this.props.changeScreen(Screens.Lobby)
     }
     render() {
         return (
             <div>
+                <div><Button text={'Back to lobby'}
+                onClick={() => this.backToLobby()}/></div>
                 <div>Room name</div>
                 <div>users</div>
             </div>
@@ -27,10 +28,9 @@ const mapStateToProps = (state: any, ownProps: any) => ({
 })
 
 const mapDispatchToProps = {
-    showPopup,
-    putObjects
+    changeScreen
 }
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(FirebaseApp)
+)(RoomComponent)

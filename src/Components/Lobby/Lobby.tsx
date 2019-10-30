@@ -1,29 +1,23 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
-import { createRoom, createdRoom } from '../../Actions/RoomActions'
-import Button from '../Shared/Button'
+import { createRoom } from '../../Actions/RoomActions'
+import Button from '../Shared/Button/Button'
+import RoomsList from '../RoomsList/RoomsList'
 
 interface LobbyInterface {
     currentRoomId: string
-
     createRoom: () => void
-    createdRoom: (roomId: string) => void
 }
 
 
-export class Lobby extends React.Component<LobbyInterface> {
+class Lobby extends React.Component<LobbyInterface> {
     componentDidMount() {
     }
     render() {
         return (
             <div>
-                <div>
-                    <Button
-                        text={'Join Room'}
-                        onClick={() => { }}
-                    />
-                </div>
+                <RoomsList />
                 <div>
                     <Button
                         text={'Create Room'}
@@ -41,7 +35,6 @@ const mapStateToProps = (state: any, ownProps: any) => ({
 
 const mapDispatchToProps = {
     createRoom,
-    createdRoom
 }
 export default connect(
     mapStateToProps,
