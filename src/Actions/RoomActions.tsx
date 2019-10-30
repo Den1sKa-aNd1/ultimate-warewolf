@@ -2,10 +2,11 @@
 import { putInPath } from '../Components/Fire'
 import { changeScreenTo } from '../Actions/GameManagerActions'
 import { Screens } from '../Helpers/Screens'
+import { Player } from '../Types/Player'
 
 export const ROOM_CREATED_WITH_ID = 'ROOM_CREATED_WITH_ID'
 export const ROOM_SELECTED_WITH_ID = 'ROOM_SELECTED_WITH_ID'
-
+export const PLAYER_ADDED = 'PLAYER_ADDED'
 
 const uuid = require('uuid/v1')
 
@@ -35,4 +36,10 @@ export const selectRoom = (roomId: string) => (dispatch: any) => {
 
 const roomSelected = (roomId: string) => {
     return { type: ROOM_SELECTED_WITH_ID, roomId }
+}
+export const addPlayer = (player: Player) => (dispatch: any) => {
+    dispatch(playerAdded(player))
+}
+const playerAdded = (player: Player) => {
+    return { type: PLAYER_ADDED, player }
 }

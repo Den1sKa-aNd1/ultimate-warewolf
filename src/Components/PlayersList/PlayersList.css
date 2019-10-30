@@ -1,0 +1,11 @@
+
+.player-list-container{
+    border:1px solid blue;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+}
+.player-list-title{
+    font-size: 20px;
+    font-weight: bold;
+}
