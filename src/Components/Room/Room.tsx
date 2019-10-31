@@ -6,6 +6,8 @@ import { Screens } from '../../Helpers/Screens'
 import PlayersList from '../PlayersList/PlayersList'
 import { Player } from '../../Types/Player'
 import { addPlayer } from '../../Actions/RoomActions'
+import Chat from '../Chat/Chat'
+import './Room.css'
 interface RoomInterface {
     changeScreen: (screen: Screens) => void
     roomId: string
@@ -23,9 +25,13 @@ class RoomComponent extends React.Component<RoomInterface> {
         return (
             <div>
                 <div><Button text={'Back to lobby'}
-                    onClick={() => this.backToLobby()} /></div>
+                    onClick={() => this.backToLobby()} />
+                </div>
                 <div>Room name</div>
-                <div><PlayersList roomId={this.props.roomId} /></div>
+                <div className='room-activity-container'>
+                    <PlayersList roomId={this.props.roomId} />
+                    <Chat />
+                </div>
                 <div><Button text={'Add player'}
                     onClick={() => this.addPlayer()} /></div>
                 <div><Button text={'Start'}

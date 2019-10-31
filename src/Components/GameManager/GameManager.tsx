@@ -16,7 +16,6 @@ export class GameManager extends React.Component<GameManagerInterface> {
         this.props.changeScreenTo(Screens.Lobby)
     }
     componentWillReceiveProps(nextProps: any) {
-        console.log(nextProps)
     }
     render() {
         switch (this.props.currentScreen) {

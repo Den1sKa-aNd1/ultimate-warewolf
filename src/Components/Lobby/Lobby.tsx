@@ -4,12 +4,11 @@ import { connect } from 'react-redux'
 import { createRoom } from '../../Actions/RoomActions'
 import Button from '../Shared/Button/Button'
 import RoomsList from '../RoomsList/RoomsList'
-
+import PlayerComponent from '../Player/Player'
 interface LobbyInterface {
     currentRoomId: string
     createRoom: () => void
 }
-
 
 class Lobby extends React.Component<LobbyInterface> {
     componentDidMount() {
@@ -17,6 +16,7 @@ class Lobby extends React.Component<LobbyInterface> {
     render() {
         return (
             <div>
+                <PlayerComponent />
                 <RoomsList />
                 <div>
                     <Button

@@ -3,7 +3,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Room } from '../../Types/Rooms'
 import UIList from '../Shared/UIList/UIList'
-import {selectRoom} from '../../Actions/RoomActions'
+import { selectRoom } from '../../Actions/RoomActions'
 import './RoomList.css'
 
 interface RoomListInterface {
@@ -13,9 +13,8 @@ interface RoomListInterface {
 
 class Lobby extends React.Component<RoomListInterface> {
     onRoomClick = (id: string) => {
-        console.log(id)
     }
-    
+
     roomWrapper = (room: Room) => {
         return (
             <div key={room.id} onClick={() => this.props.selectRoom(room.id)}>
@@ -27,7 +26,7 @@ class Lobby extends React.Component<RoomListInterface> {
         return (
             <div className='room-list-container'>
                 <div className='room-list-title'>Available Rooms</div>
-                <UIList 
+                <UIList
                     items={this.props.availableRooms.map(room => this.roomWrapper(room))}
                 />
             </div>
