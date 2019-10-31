@@ -1,6 +1,6 @@
 
 import { putInPath } from '../Components/Fire'
-import { changeScreenTo } from '../Actions/GameManagerActions'
+import { changeScreen } from '../Actions/GameManagerActions'
 import { Screens } from '../Helpers/Screens'
 import { Player } from '../Types/Player'
 
@@ -15,7 +15,7 @@ export const createRoom = () => (dispatch: any) => {
     const newRoomId = uuid()
     putInPath('room', newRoomId, roomCreated)
     dispatch(createdRoom(newRoomId))
-    dispatch(changeScreenTo(Screens.Room))
+    dispatch(changeScreen(Screens.Room))
 }
 
 export const roomCreated = (result: any) => {
@@ -31,7 +31,7 @@ export const createdRoom = (roomId: string) => {
 export const selectRoom = (roomId: string) => (dispatch: any) => {
     console.log('selected room:', roomId)
     dispatch(roomSelected(roomId))
-    dispatch(changeScreenTo(Screens.Room))
+    dispatch(changeScreen(Screens.Room))
 }
 
 const roomSelected = (roomId: string) => {

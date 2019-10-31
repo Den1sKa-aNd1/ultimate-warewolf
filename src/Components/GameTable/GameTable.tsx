@@ -1,29 +1,22 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Button from '../Shared/Button/Button'
-import { startGame, changeScreen } from '../../Actions/GameManagerActions'
+import { changeScreen } from '../../Actions/GameManagerActions'
 import { Screens } from '../../Helpers/Screens'
 import PlayersList from '../PlayersList/PlayersList'
 import { Player } from '../../Types/Player'
-import { addPlayer } from '../../Actions/RoomActions'
 import Chat from '../Chat/Chat'
-import './Room.css'
-interface RoomInterface {
+import './GameTable.css'
+interface Interface {
     changeScreen: (screen: Screens) => void
     roomId: string
-    addPlayer: (player: Player) => void
-    startGame: () => void
 }
 
-class RoomComponent extends React.Component<RoomInterface> {
+class GameTable extends React.Component<Interface> {
     backToLobby = () => {
         this.props.changeScreen(Screens.Lobby)
     }
     addPlayer = () => {
-        this.props.addPlayer(new Player('1', 'test', this.props.roomId))
-    }
-    startGame = () => {
-        this.props.startGame()
     }
     render() {
         return (
@@ -36,10 +29,6 @@ class RoomComponent extends React.Component<RoomInterface> {
                     <PlayersList roomId={this.props.roomId} />
                     <Chat />
                 </div>
-                <div><Button text={'Add player'}
-                    onClick={() => this.addPlayer()} /></div>
-                <div><Button text={'Start'}
-                    onClick={() => this.startGame()} /></div>
             </div>
         )
     }
@@ -50,11 +39,9 @@ const mapStateToProps = (state: any, ownProps: any) => ({
 })
 
 const mapDispatchToProps = {
-    startGame,
-    addPlayer,
-    changeScreen
+    changeScreen,
 }
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(RoomComponent)
+)(GameTable)

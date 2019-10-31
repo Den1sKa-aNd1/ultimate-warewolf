@@ -41,7 +41,9 @@ class Chat extends React.Component<Interface> {
             <div className='room-container'>
                 <div>Chat</div>
                 <div className='chat-area' >{this.props.messages.map((message: Message) => {
-                    const playerName = this.props.playersInRoom.filter((player: Player) => player.id === message.playerId)[0].name
+                    let playerName = ''
+                    this.props.playersInRoom.filter((player: Player) => player.id === message.playerId)
+                        .map(p => { playerName = p.name })
                     return <div key={message.id} className='chat-message'>{playerName}: {message.text}</div>
                 })}
                     <div style={{ float: "left", clear: "both" }}
