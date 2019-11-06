@@ -1,17 +1,35 @@
 import firebase from '../Helpers/Firebase/FirebaseClient'
+import { Room } from '../Types/Room'
 
 export const getByPath = (path: string) => {
-    const result = [] as any[]
+    let result = [] as any[]
     const ref = firebase.database().ref(path)
     ref.on('value', (data) => {
-        result.push(data)
-        console.log(data.val())
+        result = [] as any[]
+        for (let room in data.val()) {
+            result.push(new Room(room, data.val()[room].name, room))
+        }
+        return result
     })
-    return result
 }
 
-export const putInPath = (path: string, obj: any, onComplete?: any) => {
-    console.log(path, obj, onComplete)
+export function getRooms(): any {
+    firebase.database().ref('/room')
+        .on('value', (data) => {
+            console.log(data.val())
+            return data.val()
+        })
+}
+
+export const putInPath = (path: string, obj: any) => {
     const ref = firebase.database().ref(path)
-    ref.push(obj, onComplete(obj))
+    ref.push(obj)
+}
+
+export const putRoom = (room: Room) => {
+    const ref = firebase.database().ref('/room')
+    ref.push({
+        id: room.id,
+        name: room.name
+    })
 }

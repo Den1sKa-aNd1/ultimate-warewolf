@@ -1,5 +1,5 @@
 import {
-    PLAYER_ADDED
+    PLAYER_ADDED,
 } from '../Actions/RoomActions'
 import { Player } from '../Types/Player'
 const initialState = {

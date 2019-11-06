@@ -1,41 +1,53 @@
 
-import { putInPath } from '../Components/Fire'
+import { putRoom, getRooms } from '../Components/Fire'
 import { changeScreen } from '../Actions/GameManagerActions'
 import { Screens } from '../Helpers/Screens'
 import { Player } from '../Types/Player'
-
+import { Room } from '../Types/Room'
+import { Firebase } from '../Components/Firebase'
 export const ROOM_CREATED_WITH_ID = 'ROOM_CREATED_WITH_ID'
-export const ROOM_SELECTED_WITH_ID = 'ROOM_SELECTED_WITH_ID'
+export const ROOMS_LOADED = 'ROOMS_LOADED'
+export const ROOM_SELECTED = 'ROOM_SELECTED'
 export const PLAYER_ADDED = 'PLAYER_ADDED'
 
 const uuid = require('uuid/v1')
 
-export const createRoom = () => (dispatch: any) => {
-    console.log('called')
-    const newRoomId = uuid()
-    putInPath('room', newRoomId, roomCreated)
-    dispatch(createdRoom(newRoomId))
-    dispatch(changeScreen(Screens.Room))
+export const createRoom = (newRoomName: string) => (dispatch: any) => {
+    const newRoom = new Room(uuid(), newRoomName, '')
+    putRoom(newRoom)
+    dispatch(createdRoom(newRoom.id))
+    dispatch(selectRoom(newRoom.id))
+}
+export const getFromDB = (dataFromDb: any) => (dispatch: any) => {
+    let rooms = [] as Room[]
+    for (let roomId in dataFromDb) {
+        rooms.push(new Room(dataFromDb[roomId].id, dataFromDb[roomId].name, roomId))
+    }
+    dispatch(roomsLoaded(rooms))
 }
 
-export const roomCreated = (result: any) => {
-    console.log('created')
-    createdRoom(result)
+export const roomsLoaded = (rooms: any) => {
+    return { type: ROOMS_LOADED, rooms }
 }
 
 export const createdRoom = (roomId: string) => {
-    console.log('disp:', roomId)
     return { type: ROOM_CREATED_WITH_ID, roomId }
 }
 
-export const selectRoom = (roomId: string) => (dispatch: any) => {
-    console.log('selected room:', roomId)
-    dispatch(roomSelected(roomId))
-    dispatch(changeScreen(Screens.Room))
+export const selectRoom = (roomId: string) => (dispatch: any, getState: any) => {
+    console.log('roomID', roomId)
+    Firebase.selectedRoom().once('value', data => {
+        for (let roomDbId in data.val()) {
+            if (data.val()[roomDbId].id === roomId) {
+                dispatch(roomSelected(data.val()[roomDbId]))
+                dispatch(changeScreen(Screens.Room))
+            }
+        }
+    })
 }
 
-const roomSelected = (roomId: string) => {
-    return { type: ROOM_SELECTED_WITH_ID, roomId }
+const roomSelected = (room: Room) => {
+    return { type: ROOM_SELECTED, room }
 }
 export const addPlayer = (player: Player) => (dispatch: any) => {
     dispatch(playerAdded(player))
