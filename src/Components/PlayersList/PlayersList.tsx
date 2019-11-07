@@ -5,13 +5,30 @@ import UIList from '../Shared/UIList/UIList'
 import { selectRoom } from '../../Actions/RoomActions'
 import './PlayersList.css'
 import { Player } from '../../Types/Player'
+import { Firebase } from '../Firebase'
+import { playersLoaded } from '../../Actions/PlayerActions'
 
 interface PlayersListInterface {
-    playersInRoom: Player[]
     roomId: string
+    roomDbId: string
+    playersLoaded: (players: Player[]) => void
 }
 
 class PlayersList extends React.Component<PlayersListInterface> {
+    state = {
+        playersInRoom: [] as Player[]
+    }
+    componentDidMount() {
+        Firebase.players(this.props.roomDbId).on('value', (data: any) => {
+            const players = [] as Player[]
+            for (let playerId in data.val()) {
+                const player = new Player(data.val()[playerId].id, data.val()[playerId].name, data.val()[playerId].roomId)
+                players.push(player)
+            }
+            this.props.playersLoaded(players)
+            this.setState({ ...this.state, playersInRoom: players })
+        })
+    }
     playerWrapper = (player: Player) => {
         return (
             <div key={player.id}>
@@ -23,20 +40,18 @@ class PlayersList extends React.Component<PlayersListInterface> {
         return (
             <div className='room-list-container'>
                 <div className='room-list-title'>Players in a room</div>
-                <UIList
-                    items={this.props.playersInRoom.map(player => this.playerWrapper(player))}
-                />
+                <UIList items={this.state.playersInRoom.map(player => this.playerWrapper(player))} />
             </div>
         )
     }
 
 }
 const mapStateToProps = (state: any, ownProps: any) => ({
-    playersInRoom: state.roomReducer.players.filter((player: Player) => player.roomId === state.gameManagerReducer.currentRoomId)
 })
 
 const mapDispatchToProps = {
-    selectRoom
+    selectRoom,
+    playersLoaded
 }
 export default connect(
     mapStateToProps,

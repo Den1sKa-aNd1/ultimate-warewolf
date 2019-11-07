@@ -1,23 +1,20 @@
-import {
-    PLAYER_ADDED,
-} from '../Actions/RoomActions'
+import { PLAYER_ADDED } from '../Actions/RoomActions'
+import { PLAYERS_LOADED } from '../Actions/PlayerActions'
 import { Player } from '../Types/Player'
 const initialState = {
     roomId: '',
-    players: [
-        new Player('123', 'name 1'),
-        new Player('124', 'name 2', '1'),
-        new Player('125', 'name 3', '1'),
-        new Player('126', 'name 4', '2')
-    ]
+    players: [] as Player[]
 }
 
 const roomReducer = (state = initialState, action: any) => {
     switch (action.type) {
         case PLAYER_ADDED:
             let newPlayers = state.players
-            newPlayers.push(action.player)
+            const newPlayer = new Player(action.player.id, action.player.name, action.roomId)
+            newPlayers.push(newPlayer)
             return { ...state, players: newPlayers }
+        case PLAYERS_LOADED:
+            return { ...state, players: action.players }
         default:
             return state
     }

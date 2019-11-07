@@ -3,16 +3,21 @@ import { connect } from 'react-redux'
 import Button from '../Shared/Button/Button'
 import { Player } from '../../Types/Player'
 import { Message } from '../../Types/Message'
-import { addMessage } from '../../Actions/ChatActions'
+import { addMessage, messagesLoaded } from '../../Actions/ChatActions'
 import './Chat.css'
+import { Firebase } from '../Firebase'
+import { Room } from '../../Types/Room'
 
 interface Interface {
-    roomId: string
+    room: Room
     addMessage: (message: Message) => void
     messages: Message[]
     playersInRoom: Player[]
     currentPlayer: Player
+    messagesLoaded: (messages: Message[]) => void
 }
+const uuid = require('uuid/v1')
+
 class Chat extends React.Component<Interface> {
     state = {
         message: ''
@@ -25,6 +30,18 @@ class Chat extends React.Component<Interface> {
         this.setState({ ...this.state, message: event.target.value })
     }
     componentDidMount() {
+        Firebase.messages(this.props.room.dbId).on('value', (data: any) => {
+            const messages = [] as Message[]
+            for (let messageId in data.val()) {
+                const message =
+                    new Message(data.val()[messageId].id, this.props.room.dbId, data.val()[messageId].playerId,
+                        data.val()[messageId].text, data.val()[messageId].time)
+                messages.push(message)
+            }
+            this.props.messagesLoaded(messages)
+            this.setState({ ...this.state, messages })
+        })
+
         this.scrollToBottom();
     }
 
@@ -32,7 +49,7 @@ class Chat extends React.Component<Interface> {
         this.scrollToBottom();
     }
     addMessage = () => {
-        this.props.addMessage(new Message('1', this.props.roomId, this.props.currentPlayer.id, this.state.message, ''))
+        this.props.addMessage(new Message(uuid(), this.props.room.dbId, this.props.currentPlayer.id, this.state.message, ''))
         this.setState({ ...this.state, message: '' })
     }
     messagesEnd: HTMLDivElement | null | undefined
@@ -60,13 +77,14 @@ class Chat extends React.Component<Interface> {
 }
 const mapStateToProps = (state: any, ownProps: any) => ({
     currentPlayer: state.playerReducer.player,
-    roomId: state.gameManagerReducer.currentRoomId,
+    room: state.gameManagerReducer.currentRoom,
     messages: state.chatReducer.messages,
-    playersInRoom: state.roomReducer.players.filter((player: Player) => player.roomId === state.gameManagerReducer.currentRoomId)
+    playersInRoom: state.roomReducer.players.filter((player: Player) => player.roomId === state.gameManagerReducer.currentRoom.id)
 })
 
 const mapDispatchToProps = {
-    addMessage
+    addMessage,
+    messagesLoaded
 }
 export default connect(
     mapStateToProps,

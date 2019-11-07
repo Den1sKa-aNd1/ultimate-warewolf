@@ -21,7 +21,8 @@ class Lobby extends React.Component<LobbyInterface> {
         Firebase.room.on('value', (data: any) => {
             const rooms = [] as Room[]
             for (let roomDbId in data.val()) {
-                rooms.push(data.val()[roomDbId])
+                const room = new Room(data.val()[roomDbId].id, data.val()[roomDbId].name, roomDbId)
+                rooms.push(room)
             }
             this.props.getFromDB(rooms)
         })

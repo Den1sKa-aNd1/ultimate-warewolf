@@ -16,7 +16,8 @@ class PlayerComponent extends React.Component<Interface> {
         name: ''
     }
     setPlayer = () => {
-        this.props.setPlayer(new Player(this.state.id, this.state.name))
+        if (this.state.name)
+            this.props.setPlayer(new Player(this.state.id, this.state.name))
     }
     changeName = (event: any) => {
         this.setState({ ...this.state, name: event.target.value })
@@ -27,7 +28,6 @@ class PlayerComponent extends React.Component<Interface> {
                 <div>My player</div>
                 <input type='text' value={this.state.name} onChange={this.changeName} />
                 <div><Button text={'Save'} onClick={() => this.setPlayer()} /></div>
-
             </div>
         )
     }

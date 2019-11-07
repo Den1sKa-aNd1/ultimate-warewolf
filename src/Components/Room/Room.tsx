@@ -12,16 +12,14 @@ import { Room } from '../../Types/Room'
 interface RoomInterface {
     changeScreen: (screen: Screens) => void
     room: Room
-    addPlayer: (player: Player) => void
+    addPlayer: (player: Player, roomId: string) => void
     startGame: () => void
+    currentPlayers: Player[]
 }
 
 class RoomComponent extends React.Component<RoomInterface> {
     backToLobby = () => {
         this.props.changeScreen(Screens.Lobby)
-    }
-    addPlayer = () => {
-        this.props.addPlayer(new Player('1', 'test', this.props.room.id))
     }
     startGame = () => {
         this.props.startGame()
@@ -34,11 +32,9 @@ class RoomComponent extends React.Component<RoomInterface> {
                 </div>
                 <div>{this.props.room.name}</div>
                 <div className='room-activity-container'>
-                    <PlayersList roomId={this.props.room.id} />
+                    <PlayersList roomId={this.props.room.id} roomDbId={this.props.room.dbId} />
                     <Chat />
                 </div>
-                <div><Button text={'Add player'}
-                    onClick={() => this.addPlayer()} /></div>
                 <div><Button text={'Start'}
                     onClick={() => this.startGame()} /></div>
             </div>
@@ -47,7 +43,8 @@ class RoomComponent extends React.Component<RoomInterface> {
 
 }
 const mapStateToProps = (state: any, ownProps: any) => ({
-    room: state.gameManagerReducer.currentRoom
+    room: state.gameManagerReducer.currentRoom,
+    currentPlayers: state.roomReducer.players.filter((p: Player) => p.roomId === state.gameManagerReducer.currentRoom.id)
 })
 
 const mapDispatchToProps = {

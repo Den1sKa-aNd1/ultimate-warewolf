@@ -27,7 +27,7 @@ class GameTable extends React.Component<Interface> {
                 <div>Room name</div>
                 <div className='room-activity-container'>
                     <PlayersList roomId={this.props.roomId} />
-                    <Chat />
+                    <Chat roomId={this.props.roomId} />
                 </div>
             </div>
         )
