@@ -1,0 +1,8 @@
+.game-actions-container{
+    border:1px solid blue;
+    margin: 5px;
+    padding: 5px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+}

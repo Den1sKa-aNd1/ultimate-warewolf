@@ -9,6 +9,9 @@ import { addPlayer } from '../../Actions/RoomActions'
 import Chat from '../Chat/Chat'
 import './Room.css'
 import { Room } from '../../Types/Room'
+import PlayerComponent from '../Player/Player'
+import GameActivity from '../GameActivity/GameActivity'
+
 interface RoomInterface {
     changeScreen: (screen: Screens) => void
     room: Room
@@ -33,12 +36,14 @@ class RoomComponent extends React.Component<RoomInterface> {
                 <div><Button text={'Back to lobby'}
                     onClick={() => this.backToLobby()} />
                 </div>
+                <PlayerComponent showActions={false} />
+                <GameActivity />
                 <div>{this.props.room.name}</div>
                 <div className='room-activity-container'>
                     <PlayersList roomId={this.props.room.id} roomDbId={this.props.room.dbId} />
                     <Chat />
                 </div>
-                {this.props.player.id === this.props.room.creatorId &&
+                {this.props.player.id === this.props.room.creatorId || true &&
                     <div><Button text={'Start'}
                         onClick={() => this.startGame()} /></div>
                 }

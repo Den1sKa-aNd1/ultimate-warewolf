@@ -8,6 +8,7 @@ interface Interface {
     roomId: string
     setPlayer: (player: Player) => void
     player: Player
+    showActions: boolean
 }
 
 const uuid = require('uuid/v1')
@@ -33,7 +34,8 @@ class PlayerComponent extends React.Component<Interface> {
             <div className='player-container'>
                 <div>My player</div>
                 <input type='text' value={this.state.name} onChange={this.changeName} />
-                <div><Button text={'Save'} onClick={() => this.setPlayer()} /></div>
+                {this.props.showActions && <div><Button text={'Save'} onClick={() => this.setPlayer()} /></div>}
+                <div className='player-role'>Player role: {this.props.player.playerRole}</div>
             </div>
         )
     }

@@ -6,6 +6,7 @@ import { Screens } from '../../Helpers/Screens'
 import PlayersList from '../PlayersList/PlayersList'
 import Chat from '../Chat/Chat'
 import './GameTable.css'
+import PlayerComponent from '../Player/Player'
 import { Room } from '../../Types/Room'
 interface Interface {
     changeScreen: (screen: Screens) => void
@@ -22,6 +23,7 @@ class GameTable extends React.Component<Interface> {
         return (
             <div>
                 <div><Button text={'Back to lobby'} onClick={() => this.backToLobby()} />
+                    <PlayerComponent showActions={false} />
                 </div>
                 <div>{this.props.room.name}</div>
                 <div className='room-activity-container'>

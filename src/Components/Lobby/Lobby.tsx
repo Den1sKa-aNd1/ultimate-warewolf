@@ -9,6 +9,9 @@ import { Firebase } from '../Firebase'
 import { Player } from '../../Types/Player'
 import './Lobby.css'
 
+// temp import
+//
+
 interface LobbyInterface {
     currentRoomId: string
     createRoom: (newRoomName: string, creatorId: string) => void
@@ -52,7 +55,7 @@ class Lobby extends React.Component<LobbyInterface> {
     render() {
         return (
             <div className='lobby-container'>
-                <PlayerComponent />
+                <PlayerComponent showActions={true} />
                 <RoomsList />
                 <div>
                     <input type='text' value={this.state.newRoomName} onChange={this.changeRoomName} />
