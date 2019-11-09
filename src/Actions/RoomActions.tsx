@@ -13,8 +13,9 @@ export const PLAYER_ADDED = 'PLAYER_ADDED'
 
 const uuid = require('uuid/v1')
 
-export const createRoom = (newRoomName: string) => (dispatch: any) => {
+export const createRoom = (newRoomName: string, creatorId: string) => (dispatch: any) => {
     const newRoom = new Room(uuid(), newRoomName, '')
+    newRoom.creatorId = creatorId
     putRoom(newRoom)
     dispatch(createdRoom(newRoom.id))
     dispatch(selectRoom(newRoom.id))
@@ -32,10 +33,12 @@ export const createdRoom = (roomId: string) => {
 }
 
 export const selectRoom = (roomId: string) => (dispatch: any, getState: any) => {
+    if (!roomId) return
+    const player = getState().playerReducer.player as Player
+    if (!player.id || !player.name) return
     const availableRooms = getState().gameManagerReducer.availableRooms as Room[]
     availableRooms.forEach((room: Room) => {
         if (room.id === roomId) {
-            const player = getState().playerReducer.player as Player
             player.roomId = roomId
             player.playerRole = PlayerRoles.None
             dispatch(roomSelected(room))

@@ -9,6 +9,11 @@ import { Firebase } from '../Firebase'
 import { playersLoaded } from '../../Actions/PlayerActions'
 import { PlayerRoles } from '../../Helpers/PlayerRoles'
 
+const wwIcon = require('../../Icons/werewolf.png')
+const deadIcon = require('../../Icons/dead.png')
+const seerIcon = require('../../Icons/seer.png')
+const hunterIcon = require('../../Icons/hunter.png')
+
 interface PlayersListInterface {
     roomId: string
     roomDbId: string
@@ -33,10 +38,23 @@ class PlayersList extends React.Component<PlayersListInterface> {
         })
     }
     playerWrapper = (player: Player) => {
-        const isPlayerWarewoolf = this.props.currentPlayer.playerRole === PlayerRoles.Warewolf
+        const isWarewolf = this.props.currentPlayer.playerRole === PlayerRoles.Warewolf
+            && this.props.gameStatus && player.playerRole === PlayerRoles.Warewolf
+        const isDead = true
+        const isHunter = this.props.gameStatus && this.props.currentPlayer.playerRole === PlayerRoles.Hunter
+        const isSeer = this.props.gameStatus && this.props.currentPlayer.playerRole === PlayerRoles.Seer
+
         return (
-            <div key={player.id}>
-                {player.name} {this.props.gameStatus && isPlayerWarewoolf && player.playerRole === PlayerRoles.Warewolf ? player.playerRole : ''}
+            <div key={player.id} className='player-item'>
+                <div className='player-name'>
+                    {player.name}
+                </div>
+                <div className='player-icon'>
+                    {isWarewolf ? <img src={wwIcon} className='player-icon-image' alt={''} /> : null}
+                    {isHunter ? <img src={hunterIcon} className='player-icon-image' alt={''} /> : null}
+                    {isSeer ? <img src={seerIcon} className='player-icon-image' alt={''} /> : null}
+                    {isDead ? <img src={deadIcon} className='player-icon-image' alt={''} /> : null}
+                </div>
             </div>
         )
     }

@@ -3,7 +3,7 @@ import { ROOM_SELECTED } from '../Actions/RoomActions'
 import { ROLES_SET } from '../Actions/GameManagerActions'
 import { Player } from '../Types/Player'
 const initialState = {
-    player: null as unknown as Player
+    player: new Player('', '')
 }
 
 const playerReducer = (state = initialState, action: any) => {

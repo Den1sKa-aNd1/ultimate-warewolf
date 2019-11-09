@@ -9,8 +9,7 @@ import { Room } from '../Types/Room'
 const initialState = {
     currentScreen: Screens.Lobby,
     currentRoom: new Room('', '', ''),
-    availableRooms: [
-    ] as Room[]
+    availableRooms: [] as Room[]
 }
 
 const gameManagerReducer = (state = initialState, action: any) => {
@@ -22,6 +21,7 @@ const gameManagerReducer = (state = initialState, action: any) => {
         case ROOM_SELECTED:
             return { ...state, currentRoom: action.room }
         case ROOMS_LOADED:
+            console.log(action.rooms)
             return { ...state, availableRooms: action.rooms }
         default:
             return state

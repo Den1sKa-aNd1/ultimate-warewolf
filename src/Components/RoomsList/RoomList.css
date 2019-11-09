@@ -1,11 +1,17 @@
 
 .room-list-container{
     border:1px solid blue;
-    margin: 20px;
-    padding: 20px;
+    margin: 5px;
+    padding: 5px;
     border-radius: 10px;
 }
 .room-list-title{
     font-size: 20px;
     font-weight: bold;
+}
+.room-item{
+    border: 1px solid black;
+    margin: 5px;
+    padding: 5px;
+    border-radius: 10px;
 }

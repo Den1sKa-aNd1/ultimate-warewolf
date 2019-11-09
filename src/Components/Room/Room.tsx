@@ -16,6 +16,7 @@ interface RoomInterface {
     startGame: () => void
     currentPlayers: Player[]
     setPlayersRoles: () => void
+    player: Player
 }
 
 class RoomComponent extends React.Component<RoomInterface> {
@@ -37,8 +38,10 @@ class RoomComponent extends React.Component<RoomInterface> {
                     <PlayersList roomId={this.props.room.id} roomDbId={this.props.room.dbId} />
                     <Chat />
                 </div>
-                <div><Button text={'Start'}
-                    onClick={() => this.startGame()} /></div>
+                {this.props.player.id === this.props.room.creatorId &&
+                    <div><Button text={'Start'}
+                        onClick={() => this.startGame()} /></div>
+                }
             </div>
         )
     }
@@ -46,7 +49,8 @@ class RoomComponent extends React.Component<RoomInterface> {
 }
 const mapStateToProps = (state: any, ownProps: any) => ({
     room: state.gameManagerReducer.currentRoom,
-    currentPlayers: state.roomReducer.players.filter((p: Player) => p.roomId === state.gameManagerReducer.currentRoom.id)
+    currentPlayers: state.roomReducer.room.players.filter((p: Player) => p.roomId === state.gameManagerReducer.currentRoom.id),
+    player: state.playerReducer.player
 })
 
 const mapDispatchToProps = {

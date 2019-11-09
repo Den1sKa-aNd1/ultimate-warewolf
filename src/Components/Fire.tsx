@@ -28,8 +28,5 @@ export const putInPath = (path: string, obj: any) => {
 
 export const putRoom = (room: Room) => {
     const ref = firebase.database().ref('/room')
-    ref.push({
-        id: room.id,
-        name: room.name
-    })
+    ref.push(room)
 }

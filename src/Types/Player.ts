@@ -5,6 +5,7 @@ export class Player {
     name: string
     roomId?: string
     playerRole?: PlayerRoles
+    isDead?: boolean = false
 
     constructor(id: string, name: string, roomId?: string, playerRole?: PlayerRoles) {
         this.id = id

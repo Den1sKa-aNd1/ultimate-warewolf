@@ -1,6 +1,4 @@
-import {
-    MESSAGE_ADDED, MESSAGES_LOADED
-} from '../Actions/ChatActions'
+import { MESSAGES_LOADED } from '../Actions/ChatActions'
 import { Message } from '../Types/Message'
 const initialState = {
     roomId: '',

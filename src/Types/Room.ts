@@ -5,6 +5,7 @@ export class Room {
     name: string
     players: Player[] = []
     dbId: string = ''
+    creatorId?: string
 
     constructor(id: string, name: string, dbId: string) {
         this.id = id

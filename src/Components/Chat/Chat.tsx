@@ -82,7 +82,7 @@ const mapStateToProps = (state: any, ownProps: any) => ({
     currentPlayer: state.playerReducer.player,
     room: state.gameManagerReducer.currentRoom,
     messages: state.chatReducer.messages,
-    playersInRoom: state.roomReducer.players.filter((player: Player) => player.roomId === state.gameManagerReducer.currentRoom.id)
+    playersInRoom: state.roomReducer.room.players.filter((player: Player) => player.roomId === state.gameManagerReducer.currentRoom.id)
 })
 
 const mapDispatchToProps = {

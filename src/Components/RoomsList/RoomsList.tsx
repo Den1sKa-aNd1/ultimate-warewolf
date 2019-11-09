@@ -14,7 +14,7 @@ interface RoomListInterface {
 class Lobby extends React.Component<RoomListInterface> {
     roomWrapper = (room: Room) => {
         return (
-            <div key={room.id} onClick={() => this.props.selectRoom(room.id)}>
+            <div key={room.id} onClick={() => this.props.selectRoom(room.id)} className='room-item'>
                 {room.name}
             </div>
         )

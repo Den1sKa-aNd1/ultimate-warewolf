@@ -23,7 +23,7 @@ const gameStart = () => {
 }
 
 export const setPlayersRoles = () => (dispatch: any, getState: any) => {
-    const players = getState().roomReducer.players as Player[]
+    const players = getState().roomReducer.room.players as Player[]
     const roomDbId = getState().gameManagerReducer.currentRoom.dbId
     dispatch(rolesSet(setRoles(players, roomDbId)))
 }

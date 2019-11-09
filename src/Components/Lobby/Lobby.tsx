@@ -11,8 +11,9 @@ import './Lobby.css'
 
 interface LobbyInterface {
     currentRoomId: string
-    createRoom: (newRoomName: string) => void
+    createRoom: (newRoomName: string, creatorId: string) => void
     getFromDB: (rooms: Room[]) => void
+    currentPlayer: Player
 }
 
 class Lobby extends React.Component<LobbyInterface> {
@@ -24,6 +25,7 @@ class Lobby extends React.Component<LobbyInterface> {
             const rooms = [] as Room[]
             for (let roomDbId in data.val()) {
                 const room = new Room(data.val()[roomDbId].id, data.val()[roomDbId].name, roomDbId)
+                room.creatorId = data.val()[roomDbId].creatorId
                 const dbPlayersArray = data.val()[roomDbId].players
                 if (dbPlayersArray) {
                     const players = [] as Player[]
@@ -44,7 +46,7 @@ class Lobby extends React.Component<LobbyInterface> {
         this.setState({ ...this.state, newRoomName: event.target.value })
     }
     createRoom = () => {
-        this.props.createRoom(this.state.newRoomName)
+        this.props.createRoom(this.state.newRoomName, this.props.currentPlayer.id)
         this.setState({ ...this.state, newRoomName: '' })
     }
     render() {
@@ -65,7 +67,8 @@ class Lobby extends React.Component<LobbyInterface> {
 
 }
 const mapStateToProps = (state: any, ownProps: any) => ({
-    currentRoomId: state.gameManagerReducer.currentRoomId
+    currentRoomId: state.gameManagerReducer.currentRoomId,
+    currentPlayer: state.playerReducer.player
 })
 
 const mapDispatchToProps = {
