@@ -7,6 +7,7 @@ import './Player.css'
 interface Interface {
     roomId: string
     setPlayer: (player: Player) => void
+    player: Player
 }
 
 const uuid = require('uuid/v1')
@@ -14,6 +15,11 @@ class PlayerComponent extends React.Component<Interface> {
     state = {
         id: uuid(),
         name: ''
+    }
+    componentDidMount() {
+        if (this.props.player && this.props.player.id) {
+            this.setState({ ...this.state, id: this.props.player.id, name: this.props.player.name })
+        }
     }
     setPlayer = () => {
         if (this.state.name)
@@ -35,6 +41,7 @@ class PlayerComponent extends React.Component<Interface> {
 }
 const mapStateToProps = (state: any, ownProps: any) => ({
     roomId: state.gameManagerReducer.currentRoomId,
+    player: state.playerReducer.player
 })
 
 const mapDispatchToProps = {

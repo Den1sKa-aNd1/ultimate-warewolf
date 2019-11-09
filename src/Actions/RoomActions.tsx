@@ -20,20 +20,7 @@ export const createRoom = (newRoomName: string) => (dispatch: any) => {
     dispatch(selectRoom(newRoom.id))
 }
 export const getFromDB = (dataFromDb: any) => (dispatch: any) => {
-    let rooms = [] as Room[]
-    for (let roomId in dataFromDb) {
-        const players = [] as Player[]
-        const dbPlayersArray = dataFromDb[roomId].players
-        if (dbPlayersArray) {
-            for (let playerId in dbPlayersArray) {
-                players.push(new Player(dbPlayersArray[playerId].id, dbPlayersArray[playerId].name, dataFromDb[roomId].id))
-            }
-        }
-        const room = new Room(dataFromDb[roomId].id, dataFromDb[roomId].name, dataFromDb[roomId].dbId)
-        room.players = players
-        rooms.push(room)
-    }
-    dispatch(roomsLoaded(rooms))
+    dispatch(roomsLoaded(dataFromDb))
 }
 
 export const roomsLoaded = (rooms: any) => {
@@ -50,11 +37,13 @@ export const selectRoom = (roomId: string) => (dispatch: any, getState: any) => 
         if (room.id === roomId) {
             const player = getState().playerReducer.player as Player
             player.roomId = roomId
-            player.playerRole = PlayerRoles.Villager
+            player.playerRole = PlayerRoles.None
             dispatch(roomSelected(room))
             dispatch(changeScreen(Screens.Room))
-            Firebase.addPlayerToRoom(room.dbId).push(player)
-            dispatch(addPlayer(player, roomId))
+            if (!room.players.find((p: Player) => p.id === player.id)) {
+                Firebase.addPlayerToRoom(room.dbId).push(player)
+                dispatch(addPlayer(player, roomId))
+            }
         }
     })
 }

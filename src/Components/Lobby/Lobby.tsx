@@ -6,6 +6,8 @@ import RoomsList from '../RoomsList/RoomsList'
 import PlayerComponent from '../Player/Player'
 import { Room } from '../../Types/Room'
 import { Firebase } from '../Firebase'
+import { Player } from '../../Types/Player'
+import './Lobby.css'
 
 interface LobbyInterface {
     currentRoomId: string
@@ -22,6 +24,14 @@ class Lobby extends React.Component<LobbyInterface> {
             const rooms = [] as Room[]
             for (let roomDbId in data.val()) {
                 const room = new Room(data.val()[roomDbId].id, data.val()[roomDbId].name, roomDbId)
+                const dbPlayersArray = data.val()[roomDbId].players
+                if (dbPlayersArray) {
+                    const players = [] as Player[]
+                    for (let playerId in dbPlayersArray) {
+                        players.push(new Player(dbPlayersArray[playerId].id, dbPlayersArray[playerId].name, data.val()[roomDbId].id))
+                    }
+                    room.players = players
+                }
                 rooms.push(room)
             }
             this.props.getFromDB(rooms)
@@ -39,7 +49,7 @@ class Lobby extends React.Component<LobbyInterface> {
     }
     render() {
         return (
-            <div>
+            <div className='lobby-container'>
                 <PlayerComponent />
                 <RoomsList />
                 <div>

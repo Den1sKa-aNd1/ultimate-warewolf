@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Button from '../Shared/Button/Button'
-import { startGame, changeScreen } from '../../Actions/GameManagerActions'
+import { startGame, changeScreen, setPlayersRoles } from '../../Actions/GameManagerActions'
 import { Screens } from '../../Helpers/Screens'
 import PlayersList from '../PlayersList/PlayersList'
 import { Player } from '../../Types/Player'
@@ -15,6 +15,7 @@ interface RoomInterface {
     addPlayer: (player: Player, roomId: string) => void
     startGame: () => void
     currentPlayers: Player[]
+    setPlayersRoles: () => void
 }
 
 class RoomComponent extends React.Component<RoomInterface> {
@@ -22,6 +23,7 @@ class RoomComponent extends React.Component<RoomInterface> {
         this.props.changeScreen(Screens.Lobby)
     }
     startGame = () => {
+        this.props.setPlayersRoles()
         this.props.startGame()
     }
     render() {
@@ -50,7 +52,8 @@ const mapStateToProps = (state: any, ownProps: any) => ({
 const mapDispatchToProps = {
     startGame,
     addPlayer,
-    changeScreen
+    changeScreen,
+    setPlayersRoles
 }
 export default connect(
     mapStateToProps,

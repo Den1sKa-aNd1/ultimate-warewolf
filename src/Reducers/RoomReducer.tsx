@@ -1,9 +1,11 @@
 import { PLAYER_ADDED } from '../Actions/RoomActions'
 import { PLAYERS_LOADED } from '../Actions/PlayerActions'
+import { START_GAME, ROLES_SET } from '../Actions/GameManagerActions'
 import { Player } from '../Types/Player'
 const initialState = {
     roomId: '',
-    players: [] as Player[]
+    players: [] as Player[],
+    gameStatus: 'notStarted'
 }
 
 const roomReducer = (state = initialState, action: any) => {
@@ -14,6 +16,10 @@ const roomReducer = (state = initialState, action: any) => {
             newPlayers.push(newPlayer)
             return { ...state, players: newPlayers }
         case PLAYERS_LOADED:
+            return { ...state, players: action.players }
+        case START_GAME:
+            return { ...state, gameStatus: 'started' }
+        case ROLES_SET:
             return { ...state, players: action.players }
         default:
             return state

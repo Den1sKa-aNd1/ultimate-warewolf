@@ -44,6 +44,9 @@ class Chat extends React.Component<Interface> {
 
         this.scrollToBottom();
     }
+    componentWillUnmount() {
+        Firebase.messages(this.props.room.dbId).off()
+    }
 
     componentDidUpdate() {
         this.scrollToBottom();

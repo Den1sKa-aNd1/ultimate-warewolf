@@ -5,7 +5,6 @@ export const MESSAGE_ADDED = 'MESSAGE_ADDED'
 export const MESSAGES_LOADED = 'MESSAGES_LOADED'
 
 export const addMessage = (message: Message) => (dispatch: any) => {
-    console.log(message)
     Firebase.addMessageToRoom(message.roomDbId).push(message)
     dispatch(messageAdded(message))
 }

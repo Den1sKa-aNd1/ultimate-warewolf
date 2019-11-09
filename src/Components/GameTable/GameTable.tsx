@@ -4,12 +4,12 @@ import Button from '../Shared/Button/Button'
 import { changeScreen } from '../../Actions/GameManagerActions'
 import { Screens } from '../../Helpers/Screens'
 import PlayersList from '../PlayersList/PlayersList'
-import { Player } from '../../Types/Player'
 import Chat from '../Chat/Chat'
 import './GameTable.css'
+import { Room } from '../../Types/Room'
 interface Interface {
     changeScreen: (screen: Screens) => void
-    roomId: string
+    room: Room
 }
 
 class GameTable extends React.Component<Interface> {
@@ -21,13 +21,12 @@ class GameTable extends React.Component<Interface> {
     render() {
         return (
             <div>
-                <div><Button text={'Back to lobby'}
-                    onClick={() => this.backToLobby()} />
+                <div><Button text={'Back to lobby'} onClick={() => this.backToLobby()} />
                 </div>
-                <div>Room name</div>
+                <div>{this.props.room.name}</div>
                 <div className='room-activity-container'>
-                    <PlayersList roomId={this.props.roomId} />
-                    <Chat roomId={this.props.roomId} />
+                    <PlayersList roomId={this.props.room.id} roomDbId={this.props.room.dbId} />
+                    <Chat />
                 </div>
             </div>
         )
@@ -35,7 +34,7 @@ class GameTable extends React.Component<Interface> {
 
 }
 const mapStateToProps = (state: any, ownProps: any) => ({
-    roomId: state.gameManagerReducer.currentRoomId
+    room: state.gameManagerReducer.currentRoom,
 })
 
 const mapDispatchToProps = {
