@@ -15,7 +15,17 @@ const gameActivityReducer = (state = initialState, action: any) => {
             return { ...state, playerToKill: new Player('', '', ''), votedPlayers: [] }
         case VOTE_YES:
             const votedPlayers = state.votedPlayers
-            votedPlayers.push(action.player)
+            let newVote = true
+            if (votedPlayers.map((vp: Player) => {
+                if (newVote) {
+                    if (vp.id === action.player.id) {
+                        newVote = false
+                    }
+                }
+            }))
+                if (newVote) {
+                    votedPlayers.push(action.player)
+                }
             return { ...state, votedPlayers }
         default:
             return state

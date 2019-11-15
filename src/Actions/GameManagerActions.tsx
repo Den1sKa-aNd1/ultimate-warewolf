@@ -115,7 +115,7 @@ export const killPlayer = (player: Player) => (dispatch: any, getState: any) => 
     const currentRoom = getState().gameManagerReducer.currentRoom as Room
     const votedPlayers = getState().gameActivityReducer.votedPlayers as Player[]
     const alivePlayers = votedPlayers.filter((player: Player) => player.isDead !== true)
-    if (alivePlayers.length > currentRoom.players.length / 2) {
+    if (alivePlayers.length > currentRoom.players.length / 2 || votedPlayers.length > 0) {
         for (let id in currentRoom.players) {
             if (currentRoom.players[id].id === player.id) {
                 currentRoom.players[id].isDead = true

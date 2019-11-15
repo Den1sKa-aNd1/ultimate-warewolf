@@ -7,4 +7,8 @@ export class Firebase {
     static addPlayerToRoom = (roomDbId: string) => firebase.database().ref('/room/' + roomDbId + '/players')
     static messages = (roomDbId: string) => firebase.database().ref('/room/' + roomDbId + '/messages')
     static addMessageToRoom = (roomDbId: string) => firebase.database().ref('/room/' + roomDbId + '/messages')
+    static gameTimer = (roomDbId: string) => firebase.database().ref('/room/' + roomDbId + '/gameTimer')
+    static timeToKillLeft = (roomDbId: string) => firebase.database().ref('/room/' + roomDbId + '/timeToKillLeft')
+    static playerToKill = (roomDbId: string) => firebase.database().ref('/room/' + roomDbId + '/playerToKill')
+    static vote = (roomDbId: string) => firebase.database().ref('/room/' + roomDbId + '/vote')
 }
